@@ -1,41 +1,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <math.h>
 unsigned char S[256];
 char has[512];
 #define S_SWAP(a,b) do { int t = S[a]; S[a] = S[b]; S[b] = t; } while(0)
 
-const String USER_MASTER = "admin";
-
 void setup()
 	{
         Serial.begin(9600);
-
-        // char KEY[] = "1";
-
-  		// char sdata[] = "123";
-  
-        // for(int i = 0; i < 5; i++){
-        //     Serial.print(sdata[i]);
-        // }
-  		// //Se comentar o método de encriptacao o output no console sai corretamente
-  		// //rc4(KEY,sdata);
-  		// char PASSWORD_MASTER[512] = "Mîc";
-  		// char userLogin[] = "admin";
-
-        // Serial.println("\n\n");
-        // for(int i = 0; i < 3; i++){
-        //     Serial.print(sdata[i]);
-        // }  	
-  
-
-        /* 
-            Aqui o código funciona pra encryptar e decryptar, 
-            mas se rodar junto com o codigo acima quebra tudo
-            ---
-            Pra rodar esse daqui de baixo, comente tudo acima
-        */
 
         char key[] = "332";
 
@@ -51,31 +23,9 @@ void setup()
   
   		int ascii[4];
   
-  		//SEM ISSO TUDO QUEBRA
-  
   		for(int i = 0; i < 4; i++){
           ascii[i] = copyOfHash[i];
-          Serial.println(ascii[i]);
   		}
-		
-  		
-        // Serial.print("Encrypted : ");
-
-        // Serial.println(has);
-
-        // rc4(key,has);
-
-        // Serial.print("Decrypted : ");
-
-        // Serial.println(has);
-
-        // char data[] = "0123456789012345";
-        // int inputLen = sizeof(data);
-        // char encoded[100];
-
-        // login(sdata, has, 4);
-
-  		
 	}
 
 void login(char userLogin[]){
