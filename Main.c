@@ -1,22 +1,17 @@
-#include < stdlib.h > #include < string.h > #include < stdio.h >
+
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 unsigned char S[256];
 char has[512];
-#
-define S_SWAP(a, b) do {
-    int t = S[a];
-    S[a] = S[b];
-    S[b] = t;
-} while (0)
+#define S_SWAP(a,b) do { int t = S[a]; S[a] = S[b]; S[b] = t; } while(0)
 
-    char LOGIN_MASTER[4] = "xls";
-int PSSWD_MASTER[4] = {
-    126,
-    -47,
-    -94,
-    0
-};
-void setup() {
-    Serial.begin(9600);
+
+char LOGIN_MASTER[4] = "xls";
+int PSSWD_MASTER[4] = {126,-47,-94,0};
+void setup()
+	{
+        Serial.begin(9600);
 
     char key[] = "332";
 
@@ -33,11 +28,10 @@ void setup() {
 
     for (int i = 0; i < 4; i++) {
         asciiPasswd[i] = copyOfHash[i];
-        Serial.println(asciiPasswd[i]);
     }
 
     login(login_user, asciiPasswd);
-}
+	}
 
 bool login(char userLogin[], int password[]) {
     int count = 0;
@@ -56,27 +50,27 @@ bool login(char userLogin[], int password[]) {
     return false;
 }
 
-void rc4(char * key, char * data) {
-    int i, j;
+void rc4(char *key, char *data){
+     int i,j;
+  
+     for (i=0;i<256;i++){
+         S[i] = i;
+     }
 
-    for (i = 0; i < 256; i++) {
-        S[i] = i;
-    }
+     j = 0;
+     for (i=0;i<256;i++){
+         j = (j+S[i]+key[i%strlen(key)]) %256;    
+         S_SWAP(S[i],S[j]);
+     }
 
-    j = 0;
-    for (i = 0; i < 256; i++) {
-        j = (j + S[i] + key[i % strlen(key)]) % 256;
-        S_SWAP(S[i], S[j]);
-    }
-
-    i = j = 0;
-    for (int k = 0; k < strlen(data); k++) {
-        i = (i + 1) % 256;
-        j = (j + S[i]) % 256;
-        S_SWAP(S[i], S[j]);
-        has[k] = data[k] ^ S[(S[i] + S[j]) % 256];
-    }
-    has[strlen(data) + 1] = '\0';
+     i = j = 0;
+     for (int k=0;k<strlen(data);k++){
+         i = (i+1) %256;
+         j = (j+S[i]) %256;
+         S_SWAP(S[i],S[j]);
+         has[k] = data[k]^S[(S[i]+S[j]) %256];
+     }
+     has[strlen(data)+1] = '\0';
 }
 
-void loop() {}
+void loop(){}
