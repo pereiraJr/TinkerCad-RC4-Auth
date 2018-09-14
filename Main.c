@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -6,27 +5,27 @@ unsigned char S[256];
 char has[512];
 #define S_SWAP(a,b) do { int t = S[a]; S[a] = S[b]; S[b] = t; } while(0)
 
-
-char LOGIN_MASTER[4] = "xls";
-int PSSWD_MASTER[4] = {126,-47,-94,0};
+const int DEFAULT_SIZE = 4;
+char LOGIN_MASTER[DEFAULT_SIZE] = "xls";
+int PSSWD_MASTER[DEFAULT_SIZE] = {126,-47,-94,0};
 void setup()
 	{
         Serial.begin(9600);
 
     char key[] = "332";
 
-    char sdata[4] = "abc";
-    char login_user[4] = "xls";
+    char sdata[DEFAULT_SIZE] = "abc";
+    char login_user[DEFAULT_SIZE] = "xls";
 
     rc4(key, sdata);
 
-    char copyOfHash[4];
+    char copyOfHash[DEFAULT_SIZE];
 
-    strncpy(copyOfHash, has, 4);
+    strncpy(copyOfHash, has, DEFAULT_SIZE);
 
-    int asciiPasswd[4];
+    int asciiPasswd[DEFAULT_SIZE];
 
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < DEFAULT_SIZE; i++) {
         asciiPasswd[i] = copyOfHash[i];
     }
 
@@ -35,13 +34,13 @@ void setup()
 
 bool login(char userLogin[], int password[]) {
     int count = 0;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < DEFAULT_SIZE; i++) {
         if (LOGIN_MASTER[i] == userLogin[i] && PSSWD_MASTER[i] == password[i]) {
             count++;
         }
     }
 
-    if (count == 4) {
+    if (count == DEFAULT_SIZE) {
         Serial.println("Logged In");
         return true;
     }
